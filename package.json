@@ -1,0 +1,46 @@
+{
+  "name": "eisd",
+  "version": "0.0.1",
+  "description": "Execute your favorite command in SubDirectories. Use it like: `eisd '[command]' [subdirs...]` (Example: `eisd 'yarn build' client server scripts`)",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guidojo/eisd.git"
+  },
+  "keywords": [
+    "execute",
+    "command",
+    "in",
+    "directory",
+    "sub",
+    "subdirectory",
+    "folder",
+    "subfolder",
+    "folders",
+    "directories"
+  ],
+  "author": "guidojo",
+  "license": "SEE LICENCE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/guidojo/eisd/issues"
+  },
+  "homepage": "https://github.com/guidojo/eisd#readme",
+  "dependencies": {
+    "colors": "^1.2.1",
+    "commander": "^2.15.1",
+    "shelljs": "^0.8.1"
+  },
+  "devDependencies": {
+    "@types/colors": "^1.2.1",
+    "@types/node": "^6.0.87",
+    "@types/shelljs": "^0.7.8",
+    "prettier": "^1.11.1",
+    "typescript": "2.8.1"
+  },
+  "bin": {
+    "eisd": "./bin/eisd"
+  }
+}
