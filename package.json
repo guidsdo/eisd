@@ -4,8 +4,8 @@
   "description": "Execute your favorite command in SubDirectories. Use it like: `eisd '[command]' [subdirs...]` (Example: `eisd 'yarn build' client server scripts`)",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "yarn build",
-    "build": "rm -rf lib && tsc"
+    "build": "rm -rf lib && tsc",
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "directories"
   ],
   "author": "guidojo",
-  "license": "SEE LICENCE IN LICENSE",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/guidojo/eisd/issues"
   },
