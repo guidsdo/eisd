@@ -9,7 +9,7 @@ import { startMaster } from "./cluster";
 export async function eisd(
     commandToExecute: string,
     directoriesToUse: string[],
-    ignoreErrorRegex: string,
+    ignoreErrorRegex: string | RegExp,
     allowFailures = false,
     aSynchronous = false
 ) {

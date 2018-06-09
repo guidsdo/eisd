@@ -12,7 +12,7 @@ type WorkResult = {
 export function startMaster(
     commandToExecute: string,
     directoriesToUse: string[],
-    ignoreErrorRegex: string,
+    ignoreErrorRegex: string | RegExp,
     allowFailures = false,
     aSynchronous = false
 ): Promise<{ directoriesSucces: string[]; directoriesFailed: string[] }> {
@@ -52,7 +52,7 @@ export function startMaster(
     }
 }
 
-function executeWork(commandToExecute: string, directory: string, ignoreErrorRegex: string) {
+function executeWork(commandToExecute: string, directory: string, ignoreErrorRegex: RegExp | null) {
     const result: WorkResult = { directory, result: "SUCCESS" };
 
     try {
@@ -104,5 +104,17 @@ function executeWork(commandToExecute: string, directory: string, ignoreErrorReg
 }
 
 if (cluster.isWorker) {
-    executeWork(process.env.commandToExecute, process.env.directory, process.env.ignoreErrorRegex);
+    executeWork(process.env.commandToExecute, process.env.directory, parseStringRegex(process.env.ignoreErrorRegex));
+}
+
+function parseStringRegex(potentialRegex: string) {
+    if (!potentialRegex) return null;
+
+    // Convert regexes that are written as a literal to normal regexes
+    var match = potentialRegex.match(new RegExp("^/(.*?)/([gimy]*)$"));
+    if (match) {
+        return new RegExp(match[1], match[2]);
+    } else {
+        return new RegExp(potentialRegex);
+    }
 }
