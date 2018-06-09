@@ -1,6 +1,6 @@
 {
   "name": "eisd",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Execute your favorite command in SubDirectories. Use it like: `eisd '[command]' [subdirs...]` (Example: `eisd 'yarn build' client server scripts`)",
   "main": "lib/index.js",
   "scripts": {
