@@ -46,6 +46,7 @@ export async function eisd(
         process.stdout.write("\n");
         process.stdout.write(green(directoriesFailed.join(", ")));
         process.stdout.write("\n");
+        process.exit(1);
     }
 }
 
