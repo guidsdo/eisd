@@ -1,4 +1,4 @@
-import { green, red, yellow } from "colors";
+import { green, red, yellow, underline } from "colors";
 import * as sh from "shelljs";
 import * as node_fs from "fs";
 import * as cluster from "cluster";
@@ -12,6 +12,7 @@ type WorkResult = {
 export function startMaster(
     commandToExecute: string,
     directoriesToUse: string[],
+    ignoreErrorRegex: string,
     allowFailures = false,
     aSynchronous = false
 ): Promise<{ directoriesSucces: string[]; directoriesFailed: string[] }> {
@@ -44,11 +45,14 @@ export function startMaster(
      * Returns if there was a worker started
      */
     function startWorker() {
-        return !!directoriesToUse.length && cluster.fork({ commandToExecute, directory: directoriesToUse.shift() });
+        return (
+            !!directoriesToUse.length &&
+            cluster.fork({ commandToExecute, directory: directoriesToUse.shift(), ignoreErrorRegex })
+        );
     }
 }
 
-function executeWork(commandToExecute: string, directory: string) {
+function executeWork(commandToExecute: string, directory: string, ignoreErrorRegex: string) {
     const result: WorkResult = { directory, result: "SUCCESS" };
 
     try {
@@ -72,10 +76,20 @@ function executeWork(commandToExecute: string, directory: string) {
         process.stdout.write(text);
     });
 
+    let errorMessageShown = false;
     child.stderr.on("data", error => {
+        if (ignoreErrorRegex && error.toString().match(ignoreErrorRegex)) {
+            process.stdout.write(error.toString());
+            return;
+        }
+
         result.result = "ERROR";
-        console.error(red(`Error when executing "${commandToExecute}" in: ${directory}`));
-        process.stdout.write(error);
+        if (!errorMessageShown) {
+            process.stdout.write(red(`Error when executing "${commandToExecute}" in: ${directory}, see underlined\n`));
+            errorMessageShown = true;
+        }
+
+        process.stdout.write(underline(error.toString() + "\n"));
     });
 
     // Use stderr.on("end") since it's always being called last, which is not the case for stdout.on("end")
@@ -90,5 +104,5 @@ function executeWork(commandToExecute: string, directory: string) {
 }
 
 if (cluster.isWorker) {
-    executeWork(process.env.commandToExecute, process.env.directory);
+    executeWork(process.env.commandToExecute, process.env.directory, process.env.ignoreErrorRegex);
 }

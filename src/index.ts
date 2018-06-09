@@ -9,6 +9,7 @@ import { startMaster } from "./cluster";
 export async function eisd(
     commandToExecute: string,
     directoriesToUse: string[],
+    ignoreErrorRegex: string,
     allowFailures = false,
     aSynchronous = false
 ) {
@@ -30,6 +31,7 @@ export async function eisd(
     const { directoriesSucces, directoriesFailed } = await startMaster(
         commandToExecute,
         directoriesToUse,
+        ignoreErrorRegex,
         reallyAllowFailures,
         aSynchronous
     );
@@ -43,10 +45,10 @@ export async function eisd(
 
     if (directoriesFailed.length) {
         process.stdout.write("\n");
-        process.stdout.write(red(`Failed executing '${commandToExecute}' in the following directories:`));
+        process.stdout.write(red(`Error(s) while executing '${commandToExecute}' in the following directories:`));
         process.stdout.write("\n");
         process.stdout.write(green(directoriesFailed.join(", ")));
         process.stdout.write("\n");
-        process.exit(1);
+        if (!allowFailures) process.exit(1);
     }
 }
