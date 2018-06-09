@@ -5,7 +5,11 @@ import { eisd } from ".";
 commander
     .usage("<command> [options] <directories...>")
     .arguments("<command> [options] <directories...>")
-    .option("-e, --allowErrors", "Allow errors (at default we stop when there is one)")
+    .option("-a, --async", "Execute commands async across all folders, output will be a mess")
+    .option(
+        "-e, --allowErrors",
+        "Allow errors (at default we stop when there is one). NOTE: always true when in async mode!"
+    )
     .parse(process.argv);
 
 if (!commander.args.length) {
@@ -16,9 +20,10 @@ if (!commander.args.length) {
 const commandToExecute = commander.args.shift()!;
 const directoriesToUse = commander.args;
 const allowErrors = commander.allowErrors === true;
+const async = commander.async === true;
 
 // Prevent triggering eisd twice
 if (!process.env._runnedBefore) {
     process.env._runnedBefore = true;
-    eisd(commandToExecute, directoriesToUse, allowErrors);
+    eisd(commandToExecute, directoriesToUse, allowErrors, async);
 }

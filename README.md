@@ -4,6 +4,16 @@ Execute your favorite command in SubDirectories. Use it like: `eisd '[command]' 
 [Click here for the yarn install version!](https://github.com/guidojo/yisd)
 [Click here for the npm install version!](https://github.com/guidojo/nisd)
 
+## Usage
+```
+  Usage: eisd <command> [options] <directories...>
+
+  Options:
+    -a, --async        Execute commands async across all folders, output will be a mess
+    -e, --allowErrors  Allow errors (at default we stop when there is one). NOTE: always true when in async mode!
+    -h, --help         output usage information
+```
+
 ## Example package.json
 ```json
 {
