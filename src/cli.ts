@@ -22,8 +22,4 @@ const directoriesToUse = commander.args;
 const allowErrors = commander.allowErrors === true;
 const async = commander.async === true;
 
-// Prevent triggering eisd twice
-if (!process.env._runnedBefore) {
-    process.env._runnedBefore = true;
-    eisd(commandToExecute, directoriesToUse, allowErrors, async);
-}
+eisd(commandToExecute, directoriesToUse, allowErrors, async);
