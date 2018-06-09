@@ -1,20 +1,29 @@
 # Execute In SubDirectories
-Execute your favorite command in SubDirectories. Use it like: `eisd '[command]' [subdirs...]` (Example: `eisd 'yarn build' client server scripts`)
+Execute your favorite command in SubDirectories. Use it like: `eisd <command> [options] <directories...>` (Example: `eisd 'yarn build' --async client server scripts`)
 
-[Click here for the yarn install version!](https://github.com/guidojo/yisd)
-[Click here for the npm install version!](https://github.com/guidojo/nisd)
+[![npm version](https://badge.fury.io/js/eisd.svg)](https://badge.fury.io/js/eisd)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
+[Click here for the yarn install version!](https://www.npmjs.com/package/yisd)
+
+[Click here for the npm install version!](https://www.npmjs.com/package/nisd)
 
 ## Usage
 ```
   Usage: eisd <command> [options] <directories...>
 
   Options:
-    -a, --async        Execute commands async across all folders, output will be a mess
-    -e, --allowErrors  Allow errors (at default we stop when there is one). NOTE: always true when in async mode!
-    -h, --help         output usage information
+    -a, --async                Execute commands async across all folders, output will be a mess
+    -r, --ignoreRegex [regex]  Ignore certain error outputs (e.g. '^warning' for yarn warnings) in the form of a regex
+    -e, --allowErrors          Allow errors (at default we stop when there is one). NOTE: always true when in async mode
+    -h, --help                 output usage information
 ```
 
-## Example package.json
+## Examples
+Cli:
+`eisd 'yarn install' --ignoreRegex '^warning' --async client server testSetup/mockServer`
+
+Package.json:
 ```json
 {
   "name": "Root",
