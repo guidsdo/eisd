@@ -14,7 +14,6 @@ Execute your favorite command in SubDirectories. Use it like: `eisd <command> [o
 
   Options:
     -a, --async                Execute commands async across all folders, output will be a mess
-    -r, --ignoreRegex [regex]  Ignore certain error outputs (e.g. '^warning' for yarn warnings) in the form of a regex
     -e, --allowErrors          Allow errors (at default we stop when there is one). NOTE: always true when in async mode
     -h, --help                 output usage information
 ```

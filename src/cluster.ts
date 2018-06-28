@@ -12,7 +12,6 @@ type WorkResult = {
 export function startMaster(
     commandToExecute: string,
     directoriesToUse: string[],
-    ignoreErrorRegex: string | RegExp,
     allowFailures = false,
     aSynchronous = false
 ): Promise<{ directoriesSucces: string[]; directoriesFailed: string[] }> {
@@ -45,14 +44,11 @@ export function startMaster(
      * Returns if there was a worker started
      */
     function startWorker() {
-        return (
-            !!directoriesToUse.length &&
-            cluster.fork({ commandToExecute, directory: directoriesToUse.shift(), ignoreErrorRegex })
-        );
+        return !!directoriesToUse.length && cluster.fork({ commandToExecute, directory: directoriesToUse.shift() });
     }
 }
 
-function executeWork(commandToExecute: string, directory: string, ignoreErrorRegex: RegExp | null) {
+function executeWork(commandToExecute: string, directory: string) {
     const result: WorkResult = { directory, result: "SUCCESS" };
 
     try {
@@ -70,41 +66,19 @@ function executeWork(commandToExecute: string, directory: string, ignoreErrorReg
 
     console.log(yellow(`Executing command "${commandToExecute}" in: ${directory}`));
 
-    const child = exec(commandToExecute);
+    const execOutput = sh.exec(commandToExecute);
 
-    child.stdout.on("data", text => {
-        process.stdout.write(text);
-    });
+    result.result = execOutput.code === 0 ? "SUCCESS" : "ERROR";
+    result.result === "SUCCESS"
+        ? process.stdout.write(green(`Done with executing "${commandToExecute}" in ${directory}`))
+        : process.stdout.write(red(`Done with errors after executing "${commandToExecute}" in ${directory}`));
 
-    let errorMessageShown = false;
-    child.stderr.on("data", error => {
-        if (ignoreErrorRegex && error.toString().match(ignoreErrorRegex)) {
-            process.stdout.write(error.toString());
-            return;
-        }
-
-        result.result = "ERROR";
-        if (!errorMessageShown) {
-            process.stdout.write(red(`Error when executing "${commandToExecute}" in: ${directory}, see underlined\n`));
-            errorMessageShown = true;
-        }
-
-        process.stdout.write(underline(error.toString() + "\n"));
-    });
-
-    // Use stderr.on("end") since it's always being called last, which is not the case for stdout.on("end")
-    child.stderr.on("end", () => {
-        result.result === "SUCCESS"
-            ? process.stdout.write(green("Done"))
-            : process.stdout.write(red("Done with errors"));
-
-        process.stdout.write("\n\n");
-        process.send!(result);
-    });
+    process.stdout.write("\n\n");
+    process.send!(result);
 }
 
 if (cluster.isWorker) {
-    executeWork(process.env.commandToExecute, process.env.directory, parseStringRegex(process.env.ignoreErrorRegex));
+    executeWork(process.env.commandToExecute, process.env.directory);
 }
 
 function parseStringRegex(potentialRegex: string) {
