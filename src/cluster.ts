@@ -31,8 +31,8 @@ export function startMaster(
                 ? directoriesSucces.push(message.directory)
                 : directoriesFailed.push(message.directory);
 
-            // No more directories or we there is a failure and we don't allow any? Resolve!
-            if (!directoriesToDo || (!allowFailures && directoriesFailed.length)) {
+            // No more directories or there is a failure (in synchronous mode) and we don't allow any? Resolve!
+            if (!directoriesToDo || (!aSynchronous && !allowFailures && directoriesFailed.length)) {
                 resolve({ directoriesSucces, directoriesFailed });
             } else {
                 startWorker();
