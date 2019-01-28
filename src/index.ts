@@ -10,7 +10,8 @@ export async function eisd(
     commandToExecute: string,
     directoriesToUse: string[],
     allowFailures = false,
-    aSynchronous = false
+    aSynchronous = false,
+    envVariable = ""
 ) {
     // Prevent triggering eisd twice because the cluster-worker will rerun all the code
     if (process.env._runnedBefore) return;
@@ -21,12 +22,23 @@ export async function eisd(
         throw new Error("No command found.");
     }
 
+    if (envVariable) {
+        if (!process.env[envVariable]) {
+            process.stdout.write(red(`ERROR: No environment value found on "process.env.${envVariable}"..\n`));
+            throw new Error(`Invalid env variable given "${envVariable}".`);
+        }
+
+        const directories = (process.env[envVariable] as string).split(" ");
+        directoriesToUse.push(...directories);
+    }
+
     if (!directoriesToUse.length) {
         process.stdout.write(red("ERROR: No directories given..\n"));
         throw new Error("No directories found.");
     }
 
-    console.log(directoriesToUse);
+    console.log("Directories:", directoriesToUse);
+    process.stdout.write("\n");
 
     const { directoriesSucces, directoriesFailed } = await startMaster(
         commandToExecute,

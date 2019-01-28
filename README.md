@@ -13,9 +13,10 @@ Execute your favorite command in SubDirectories. Use it like: `eisd <command> [o
   Usage: eisd <command> [options] <directories...>
 
   Options:
-    -a, --async                Execute commands async across all folders, output will be a mess
-    -e, --allowErrors          Allow errors (at default we stop when there is one). NOTE: always true when in async mode
-    -h, --help                 output usage information
+    -a, --async                             Execute commands async across all folders, output will be a mess
+    -e, --allowErrors                       Allow errors (at default we stop when there is one). NOTE: always true when in async mode
+    -d, --envDirectories [environment_key]  Environment variable that contains the directories, for example a package.json config car would be: npm_config_myVar
+    -h, --help                              output usage information
 ```
 
 ## Examples
@@ -30,7 +31,11 @@ Package.json:
   "description": "mainFolder",
   "scripts": {
     "postinstall": "yisd client server",
-    "build": "eisd 'yarn build' client server scripts"
+    "build": "eisd 'yarn build' client server scripts",
+    "lint": "eisd 'npm run lint' -d npm_package_config_components"
+  },
+  "config": {
+    "components": "client server scripts"
   }
 }
 ```

@@ -10,6 +10,10 @@ commander
         "-e, --allowErrors",
         "Allow errors (at default we stop when there is one). NOTE: always true when in async mode"
     )
+    .option(
+        "-d, --envDirectories [environment_key]",
+        "Environment variable that contains the directories, for example a package.json config car would be: npm_config_myVar"
+    )
     .parse(process.argv);
 
 if (!commander.args.length) {
@@ -21,5 +25,6 @@ const commandToExecute = commander.args.shift()!;
 const directoriesToUse = commander.args;
 const allowErrors = commander.allowErrors === true;
 const async = commander.async === true;
+const envDirectories: string = commander.envDirectories || "";
 
-eisd(commandToExecute, directoriesToUse, allowErrors, async);
+eisd(commandToExecute, directoriesToUse, allowErrors, async, envDirectories);
