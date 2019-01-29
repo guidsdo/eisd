@@ -1,4 +1,4 @@
-import { green, red, yellow } from "colors";
+import { green, red } from "colors";
 import { startMaster } from "./cluster";
 
 /**
@@ -11,7 +11,8 @@ export async function eisd(
     directoriesToUse: string[],
     allowFailures = false,
     aSynchronous = false,
-    envVariable = ""
+    envVariable = "",
+    verbose: boolean = false
 ) {
     // Prevent triggering eisd twice because the cluster-worker will rerun all the code
     if (process.env._runnedBefore) return;
@@ -37,17 +38,20 @@ export async function eisd(
         throw new Error("No directories found.");
     }
 
-    console.log("Directories:", directoriesToUse);
-    process.stdout.write("\n");
+    if (verbose) {
+        console.log("Directories:", directoriesToUse);
+        process.stdout.write("\n");
+    }
 
     const { directoriesSucces, directoriesFailed } = await startMaster(
         commandToExecute,
         directoriesToUse,
         allowFailures,
-        aSynchronous
+        aSynchronous,
+        verbose
     );
 
-    if (directoriesSucces.length) {
+    if (verbose && directoriesSucces.length) {
         process.stdout.write(green(`Done executing '${commandToExecute}' in the following directories:`));
         process.stdout.write("\n");
         process.stdout.write(directoriesSucces.join(", "));

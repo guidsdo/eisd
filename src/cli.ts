@@ -12,7 +12,11 @@ commander
     )
     .option(
         "-d, --envDirectories [environment_key]",
-        "Environment variable that contains the directories, for example a package.json config car would be: npm_config_myVar"
+        "Environment variable that contains the directories, for example a package.json config var would be: npm_config_myVar"
+    )
+    .option(
+        "-v, --verbose",
+        "More verbose output"
     )
     .parse(process.argv);
 
@@ -26,5 +30,6 @@ const directoriesToUse = commander.args;
 const allowErrors = commander.allowErrors === true;
 const async = commander.async === true;
 const envDirectories: string = commander.envDirectories || "";
+const verbose = commander.verbose === true;
 
-eisd(commandToExecute, directoriesToUse, allowErrors, async, envDirectories);
+eisd(commandToExecute, directoriesToUse, allowErrors, async, envDirectories, verbose);
