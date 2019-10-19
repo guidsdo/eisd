@@ -1,5 +1,6 @@
 import { green, red } from "colors";
 import { startMaster } from "./cluster";
+import { checkYarnAvailability, getYarnWorkspaces } from "./yarnHelpers";
 
 type EisdConfig = {
     commandToExecute: string;
@@ -7,6 +8,7 @@ type EisdConfig = {
     allowErrors?: boolean;
     aSynchronous?: boolean;
     envVariable?: string;
+    yarnWorkspaces?: boolean;
     verbose?: boolean;
 };
 
@@ -25,6 +27,10 @@ export async function eisd(config: EisdConfig) {
         throw new Error("No command found.");
     }
 
+    if (config.yarnWorkspaces) {
+        checkYarnAvailability();
+        config.directoriesToUse.push(...getYarnWorkspaces());
+    }
 
     if (config.envVariable) {
         if (!process.env[config.envVariable]) {
