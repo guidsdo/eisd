@@ -12,11 +12,11 @@ export async function eisd(
     allowFailures = false,
     aSynchronous = false,
     envVariable = "",
-    verbose: boolean = false
+    verbose = false
 ) {
     // Prevent triggering eisd twice because the cluster-worker will rerun all the code
     if (process.env._runnedBefore) return;
-    process.env._runnedBefore = true;
+    process.env._runnedBefore = "true";
 
     if (!commandToExecute) {
         process.stdout.write(red("ERROR: No command given..\n"));

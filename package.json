@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "@types/colors": "^1.2.1",
-    "@types/node": "^6.0.87",
-    "@types/shelljs": "^0.8.2",
+    "@types/node": "^8.0.0",
+    "@types/shelljs": "^0.8.5",
     "prettier": "^1.13.5",
     "typescript": "3.2.4"
   },

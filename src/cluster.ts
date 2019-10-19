@@ -20,7 +20,7 @@ export function startMaster(
         const directoriesSucces: string[] = [];
         const directoriesFailed: string[] = [];
 
-        if (aSynchronous) while (startWorker()) { }
+        if (aSynchronous) while (startWorker()) {}
         else startWorker();
 
         cluster.on("message", (worker: cluster.Worker, message: WorkResult) => {
@@ -44,7 +44,10 @@ export function startMaster(
      * Returns if there was a worker started
      */
     function startWorker() {
-        return !!directoriesToUse.length && cluster.fork({ commandToExecute, directory: directoriesToUse.shift(), verbose: verbose.toString() });
+        return (
+            !!directoriesToUse.length &&
+            cluster.fork({ commandToExecute, directory: directoriesToUse.shift(), verbose: verbose.toString() })
+        );
     }
 }
 
@@ -82,5 +85,9 @@ function executeWork(commandToExecute: string, directory: string, verbose: boole
 }
 
 if (cluster.isWorker) {
-    executeWork(process.env.commandToExecute, process.env.directory, process.env.verbose === "true");
+    executeWork(
+        process.env.commandToExecute as string,
+        process.env.directory as string,
+        process.env.verbose === "true"
+    );
 }

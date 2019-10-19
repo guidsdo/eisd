@@ -33,15 +33,15 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.2.tgz#e49ac1adb458835e95ca6487bc20f916b37aff23"
   integrity sha512-UWkRY9X7RQHp5OhhRIIka58/gVVycL1zHZu0OTsT5LI86ABaMOSbUjAl+b0FeDhQcxclrkyft3kW5QWdMRs8wQ==
 
-"@types/node@^6.0.87":
-  version "6.0.104"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.104.tgz#5a17c151c223041602f11a404db9a00e54250174"
-  integrity sha512-xPuI3Yeyc3u5SY7aFu6ILTJHFXo820DSfqNqYi1gxPmbpul+vLSfo3vhrY80d0+SdOYR9KdXHg6ozx4i/02LCg==
+"@types/node@^8.0.0":
+  version "8.10.55"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.55.tgz#3951a64ebce1927b050fd1e420dc6f332be8a1e0"
+  integrity sha512-iZeh1EgupfmAAOASk580R1SL5lWF3CsBVgVH0395qyNF8fhO16xy1UwAav2PdGxIIsYRn7RzJgMGjdsvam6YYg==
 
-"@types/shelljs@^0.8.2":
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.8.2.tgz#6fa9314497ec7b61c28a21485bfa915e64894751"
-  integrity sha512-vVp7BCQn0yUQgpiohrdxAhHdm/bTlXshB4HG3LEBq1PgvjKiyeYHohIPIv0QBt/jipb140iMS5Xy1iR6qKovKw==
+"@types/shelljs@^0.8.5":
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.8.5.tgz#1e507b2f6d1f893269bd3e851ec24419ef9beeea"
+  integrity sha512-bZgjwIWu9gHCjirKJoOlLzGi5N0QgZ5t7EXEuoqyWCHTuSddURXo3FOBYDyRPNOWzZ6NbkLvZnVkn483Y/tvcQ==
   dependencies:
     "@types/glob" "*"
     "@types/node" "*"
